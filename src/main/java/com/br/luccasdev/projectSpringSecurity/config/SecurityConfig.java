@@ -59,4 +59,6 @@ public class SecurityConfig {
 
         return NimbusJwtDecoder.withPublicKey(publicKey).build(); // descriptografando a chave privada
     }
+
+    // verificando se a senha passada pelo usuario sera a mesma senha salva no banco de dados
 }
