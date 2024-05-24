@@ -37,18 +37,18 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception { // esse metodo serve para customizar toda questão de segurança do projeto
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { // esse metodo serve para customizar toda questão de segurança do projeto
 
-        httpSecurity.authorizeHttpRequests(authorize -> authorize.
-                        requestMatchers(HttpMethod.POST, "/login").permitAll(). // para dizer que o metodo POST no login nao precisa de ser autenticado
-                        anyRequest().authenticated()) // para dizer que qlqr request tem que ser autenticada
-         .csrf(csrf -> csrf.disable()). // configuracao que é desabilitada no local mas em ambiente de produção precisa estar habilitada
-                oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // para dizer que o security sera STATELESS, ou seja, nao iremos precisar guardar nada em sessao
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .anyRequest().authenticated())  // para dizer que qlqr request tem que ser autenticada
+                .csrf(csrf -> csrf.disable())           // configuracao que é desabilitada no local mas em ambiente de produção precisa estar habilitada
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));  // para dizer que o security sera STATELESS, ou seja, nao iremos precisar guardar nada em sessao
 
-
-
-        return httpSecurity.build();
+        return http.build();
     }
 
     // enconde e decode
