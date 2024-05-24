@@ -2,6 +2,7 @@ package com.br.luccasdev.projectSpringSecurity.controller;
 
 import com.br.luccasdev.projectSpringSecurity.controller.dto.LoginRequest;
 import com.br.luccasdev.projectSpringSecurity.controller.dto.LoginResponse;
+import com.br.luccasdev.projectSpringSecurity.model.Role;
 import com.br.luccasdev.projectSpringSecurity.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @RestController
 public class TokenController {
@@ -41,10 +43,16 @@ public class TokenController {
         var now = Instant.now();
         var expiresIn = 300L;
 
+        var scopes = user.get().getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet.builder().
                 issuer("mybackend").
                 subject(user.get().getUserId().toString()).
                 expiresAt(now.plusSeconds(expiresIn)).
+                claim("scope", scopes).
                 issuedAt(now).build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
