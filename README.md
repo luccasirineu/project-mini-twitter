@@ -10,7 +10,7 @@ Desenvolvendo uma api semelhante ao twitter com a implementação do spring secu
 - Compreender como funciona as etapas de segurança de uma api utilizando spring security.
 - Limitar as operações de CRUD para determinadas roles(admin, basic user).
 - Saber como usar o encode e decode nas senhas.
-- Deixar as senhas encriptografadas ao realizar as consultas no banco de dados.
+- Deixar as senhas criptografadas ao realizar as consultas no banco de dados.
 - Testar a api utilizando Bruno.
 - Realizar protocolo de autenticação com o OAuth2, utilizando o access token.
 
